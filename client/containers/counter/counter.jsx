@@ -8,7 +8,7 @@ const mapDispatchToProps = counterActions;
 
 function mapStateToProps(state) {
   return {
-    counterComponentIm: state.components.counter,
+    counterComponentIm: state.components.counterComponentIm,
   };
 }
 
