@@ -3,7 +3,7 @@ import { Counter } from 'containers';
 
 const CounterPage = () => (
   <div>
-    <span>Counter page</span>
+    <h2>Counter page</h2>
     <Counter />
   </div>
 );

@@ -44,7 +44,7 @@ const counterComponentIncreaseDelta = () => ({ type: INCREASE });
 const counterComponentDecreaseDelta = () => ({ type: DECREASE });
 
 const counterComponentIncreaseAsyncSignal = () => dispatch => co(function* increaseAsync() {
-  yield delay(1000);
+  yield delay(500);
 
   dispatch(counterComponentIncreaseDelta());
 });

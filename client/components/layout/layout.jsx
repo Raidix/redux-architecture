@@ -21,6 +21,7 @@ const Layout = ({ children }) => (
     <ul>
       <MenuLink pageLink="/" pageName="Index page" />
       <MenuLink pageLink="/counter" pageName="Counter page" />
+      <MenuLink pageLink="/multiple" pageName="Multiple page" />
     </ul>
 
     {children}

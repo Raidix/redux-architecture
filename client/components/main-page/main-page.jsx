@@ -2,7 +2,7 @@ import React from 'react';
 
 const MainPage = () => (
   <div>
-    <span>Main page</span>
+    <h2>Main page</h2>
   </div>
 );
 
