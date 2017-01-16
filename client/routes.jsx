@@ -1,11 +1,14 @@
 import React from 'react';
 import { Route } from 'react-router';
 import {
-  Counter,
-} from 'containers';
+  Layout,
+  MainPage,
+  CounterPage,
+} from 'components';
 
 export default (
-  <Route>
-    <Route path="/" component={Counter} />
+  <Route component={Layout}>
+    <Route path="/" component={MainPage} />
+    <Route path="/counter" component={CounterPage} />
   </Route>
 );
