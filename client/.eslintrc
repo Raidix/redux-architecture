@@ -1,0 +1,23 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+
+  "rules": {
+    "new-cap": [2, {"capIsNewExceptions": ["Map", "List", "FromJS"]}],
+    "max-len": [2, {"code": 120, "tabWidth": 2}],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "import/prefer-default-export": 0
+  },
+
+  "env": {
+    "browser": true
+  },
+
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.dev.config.js"
+      }
+    }
+  }
+}
