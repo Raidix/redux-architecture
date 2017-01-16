@@ -5,13 +5,13 @@ const MultiplePage = () => (
   <div>
     <h2>Multiple page</h2>
 
-    <Multiple />
+    <Multiple componentId="first" />
 
     <br />
-    <Multiple />
+    <Multiple componentId="second" />
 
     <br />
-    <Multiple />
+    <Multiple componentId="third" />
   </div>
 );
 
