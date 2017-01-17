@@ -7,7 +7,7 @@ import { APPLICATION_NAME } from 'config';
  * Constants
  * */
 
-const MODULE_NAME = 'MULTIPLE_COMPONENT';
+const MODULE_NAME = 'multipleComponent';
 
 // Action names
 const SET_SELECTED = `${APPLICATION_NAME}/${MODULE_NAME}/SET_SELECTED`;

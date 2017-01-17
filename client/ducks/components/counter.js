@@ -9,7 +9,7 @@ import { delay } from 'tools';
 * Constants
 * */
 
-const MODULE_NAME = 'COUNTER_COMPONENT';
+const MODULE_NAME = 'counterComponent';
 
 // Action names
 const INCREASE = `${APPLICATION_NAME}/${MODULE_NAME}/INCREASE`;
