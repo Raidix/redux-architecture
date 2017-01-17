@@ -27,6 +27,7 @@ api.get('/raid', (req, res) => {
   res.send({
     status: 'OK',
     result: raids,
+    warnings: [],
   });
 });
 

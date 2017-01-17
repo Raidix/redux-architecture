@@ -60,7 +60,9 @@ const raidDataFetchSignal = () => dispatch => co(function* fetchGen() {
   }
 
   if (status !== 200) {
-    alert(`error, status: ${status}`); // eslint-disable-line no-alert
+    alert(`status: ${status}, error: ${error}`); // eslint-disable-line no-alert
+
+    return answer;
   }
 
   data.result.forEach((raid) => {
