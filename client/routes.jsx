@@ -5,6 +5,7 @@ import {
   MainPage,
   CounterPage,
   MultiplePage,
+  FetchPage,
 } from 'components';
 
 export default (
@@ -12,5 +13,6 @@ export default (
     <Route path="/" component={MainPage} />
     <Route path="/counter" component={CounterPage} />
     <Route path="/multiple" component={MultiplePage} />
+    <Route path="/fetch" component={FetchPage} />
   </Route>
 );

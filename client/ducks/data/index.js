@@ -1,3 +1,9 @@
-/**
- * Created by evgen on 16/01/17.
- */
+import { combineReducers } from 'redux';
+import raidDataIm from 'ducks/data/raid';
+
+const dataReducer = combineReducers({
+  raidDataIm,
+});
+
+export default dataReducer;
+

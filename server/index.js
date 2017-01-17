@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const routes = require('./routes');
 // const webpack = require('webpack');
 // const config = require('./webpack.config.dev');
 // const compiler = webpack(config);
@@ -35,6 +36,8 @@ if (process.env.NODE_ENV === 'development') {
   // public files
   app.use('/public', express.static(path.join(__dirname, '../public')));
 }
+
+app.use('/api', routes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
