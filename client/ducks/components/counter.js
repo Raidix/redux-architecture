@@ -1,3 +1,7 @@
+/*
+* Пример модуля умного компонента.
+* */
+
 import co from 'co';
 import { Map } from 'immutable';
 import { PropTypes } from 'react';

@@ -1,11 +1,17 @@
+/*
+* Пример модуля умного компонента, который поддерживает работу сразу с несколькими
+* экземплярами компонениа на странице. Для этого в store хранится хэш, где ключи это
+* id компонентов, а значение это данные конкретного компонента.
+* */
+
 import { Map } from 'immutable';
 import { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { APPLICATION_NAME } from 'config';
 
 /*
- * Constants
- * */
+* Constants
+* */
 
 const MODULE_NAME = 'multipleComponent';
 
@@ -15,8 +21,8 @@ const REGISTER = `${APPLICATION_NAME}/${MODULE_NAME}/REGISTER`;
 const UNREGISTER = `${APPLICATION_NAME}/${MODULE_NAME}/UNREGISTER`;
 
 /*
- * Reducer
- * */
+* Reducer
+* */
 
 const componentInitialState = Map({
   selectedIndex: 0,
@@ -41,8 +47,8 @@ export default function reducer(state = initialState, action) {
 }
 
 /*
- * Actions
- * */
+* Actions
+* */
 
 const multipleComponentSetSelectedDelta = ({ componentId, selectedIndex }) => ({
   type: SET_SELECTED,
@@ -66,8 +72,8 @@ export const actions = {
 };
 
 /*
- * Shapes
- * */
+* Shapes
+* */
 
 const componentStateShape = ImmutablePropTypes.contains({
   selectedIndex: PropTypes.number.isRequired,
