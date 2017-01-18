@@ -7,8 +7,7 @@ import { Map, fromJS } from 'immutable';
 import { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { APPLICATION_NAME } from 'config';
-import { fetcher } from 'tools';
-// import { delay } from 'tools';
+import { fetcher, waitStoreUpdate } from 'tools';
 
 /*
  * Constants
@@ -55,12 +54,14 @@ const raidDataFetchSignal = () => dispatch => co(function* fetchGen() {
 
   if (error) {
     alert(error); // eslint-disable-line no-alert
+    yield waitStoreUpdate();
 
     return answer;
   }
 
   if (status !== 200) {
     alert(`status: ${status}, error: ${error}`); // eslint-disable-line no-alert
+    yield waitStoreUpdate();
 
     return answer;
   }
@@ -70,6 +71,8 @@ const raidDataFetchSignal = () => dispatch => co(function* fetchGen() {
   });
 
   dispatch(raidDataFetchDoneDelta({ data: resultData }));
+
+  yield waitStoreUpdate();
 
   return answer;
 });
