@@ -3,26 +3,32 @@ import { shapes } from 'ducks/data/raid';
 
 const FetchRaids = ({
   raidDataFetchSignal,
-  raidDataResetDelta,
+  raidDataResetSignal,
   raidDataIm,
-}) => (
-  <div>
-    <button onClick={raidDataFetchSignal}>Fetch Raids</button>
-    <button onClick={raidDataResetDelta}>Reset</button>
-    <br />
+}) => {
+  const click = () => raidDataFetchSignal().then(() => {
+    alert('data was fetched, state was updated'); // eslint-disable-line no-alert
+  });
 
+  return (
     <div>
-      <h3>raids:</h3>
-      <pre>
-        {JSON.stringify(raidDataIm.toJS(), null, 2)}
-      </pre>
+      <button onClick={click}>Fetch Raids</button>
+      <button onClick={raidDataResetSignal}>Reset</button>
+      <br />
+
+      <div>
+        <h3>raids:</h3>
+        <pre>
+          {JSON.stringify(raidDataIm.toJS(), null, 2)}
+        </pre>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 FetchRaids.propTypes = {
   raidDataFetchSignal: PropTypes.func.isRequired,
-  raidDataResetDelta: PropTypes.func.isRequired,
+  raidDataResetSignal: PropTypes.func.isRequired,
   raidDataIm: shapes.state.isRequired,
 };
 
