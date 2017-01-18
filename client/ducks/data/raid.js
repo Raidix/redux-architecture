@@ -1,17 +1,23 @@
 /*
- * Пример модуля данных (модели).
- * */
+* Пример модуля данных (модели).
+* */
 
 import co from 'co';
 import { Map, fromJS } from 'immutable';
 import { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { APPLICATION_NAME } from 'config';
-import { fetcher, waitStoreUpdate } from 'tools';
+import { waitStoreUpdate } from 'tools';
+import { actions as ajaxControllerActions } from 'ducks/ajax-controller/ajax-controller';
+
+const {
+  ajaxControllerFetchSignal,
+  ajaxControlleUnregisterDelta,
+} = ajaxControllerActions;
 
 /*
- * Constants
- * */
+* Constants
+* */
 
 export const MODULE_NAME = 'raidData';
 export const URL = '/api/raid';
@@ -21,8 +27,8 @@ const FETCH_DONE = `${APPLICATION_NAME}/${MODULE_NAME}/FETCH_DONE`;
 const RESET = `${APPLICATION_NAME}/${MODULE_NAME}/RESET`;
 
 /*
- * Reducer
- * */
+* Reducer
+* */
 
 const initialState = Map({});
 
@@ -41,36 +47,24 @@ export default function reducer(state = initialState, action) {
 }
 
 /*
- * Actions
- * */
+* Actions
+* */
 
 const raidDataFetchDoneDelta = ({ data }) => ({ type: FETCH_DONE, payload: data });
-const raidDataResetDelta = () => ({ type: RESET });
+
+const raidDataResetSignal = () => (dispatch) => {
+  dispatch(ajaxControlleUnregisterDelta({ moduleName: MODULE_NAME }));
+  dispatch({ type: RESET });
+};
 
 const raidDataFetchSignal = () => dispatch => co(function* fetchGen() {
-  const answer = yield fetcher('/api/raid');
-  const { status, data, error } = answer;
-  const resultData = {};
+  // Получаем коллекцию через контроллер
+  const answer = yield dispatch(ajaxControllerFetchSignal('/api/raid', {}, { moduleName: MODULE_NAME }));
 
-  if (error) {
-    alert(error); // eslint-disable-line no-alert
-    yield waitStoreUpdate();
-
-    return answer;
+  // Сохраняем коллекцию в store
+  if (answer.isSuccess) {
+    dispatch(raidDataFetchDoneDelta({ data: answer.data }));
   }
-
-  if (status !== 200) {
-    alert(`status: ${status}, error: ${error}`); // eslint-disable-line no-alert
-    yield waitStoreUpdate();
-
-    return answer;
-  }
-
-  data.result.forEach((raid) => {
-    resultData[raid.id] = raid;
-  });
-
-  dispatch(raidDataFetchDoneDelta({ data: resultData }));
 
   yield waitStoreUpdate();
 
@@ -79,7 +73,8 @@ const raidDataFetchSignal = () => dispatch => co(function* fetchGen() {
 
 export const actions = {
   raidDataFetchSignal,
-  raidDataResetDelta,
+  raidDataResetSignal,
+  raidDataFetchDoneDelta,
 };
 
 /*
