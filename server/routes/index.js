@@ -1,8 +1,10 @@
+'use strict';
+
 const express = require('express');
 
 const api = express();
 
-const raids = [
+let raids = [
   {
     id: 'r1',
     name: 'raid1',
@@ -24,11 +26,27 @@ const raids = [
 ];
 
 api.get('/raid', (req, res) => {
-  res.send({
-    status: 'OK',
-    result: raids,
-    warnings: [],
-  });
+
+  setTimeout(() => {
+    res.status(200).send({
+      status: 'OK',
+      result: raids,
+      warnings: [],
+    });
+  }, 1000);
+});
+
+api.delete('/raid/:id', (req, res) => {
+  const id = req.params.id;
+
+  raids = raids.filter(raid => raid.id !== id);
+
+  setTimeout(() => {
+    res.status(200).send({
+      status: 'OK',
+      warnings: [],
+    });
+  }, 300);
 });
 
 module.exports = api;
