@@ -1,3 +1,7 @@
+/*
+* Специфичный для проекта обработчик ошибок ajax запросов
+* */
+
 /* eslint-disable require-yield */
 
 // TODO: silent
@@ -39,6 +43,10 @@ function* errorHandler(dispatch, { status, data, error, method }) {
         //   errorMessage = i18n.exists(`errmsgs:${message}`) ?
         //     $.t(`errmsgs:${message}`, args) : message;
         // }
+        //
+        // alert(errorMessage); // eslint-disable-line no-alert
+
+        alert('unknown error'); // eslint-disable-line no-alert
       }
 
       return { status, data, originalData: data, error, isSuccess: false };

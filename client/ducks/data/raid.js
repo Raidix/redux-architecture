@@ -8,11 +8,15 @@ import { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { APPLICATION_NAME } from 'config';
 import { waitStoreUpdate } from 'tools';
-import { actions as ajaxControllerActions } from 'ducks/ajax-controller/ajax-controller';
+import {
+  actions as ajaxControllerActions,
+  MODULE_NAME as AJAX_CONTROLLER_MODULE_NAME,
+} from 'ducks/ajax-controller/ajax-controller';
 
 const {
   ajaxControllerFetchSignal,
-  ajaxControlleUnregisterDelta,
+  ajaxControllerUnregisterDelta,
+  ajaxControllerMarkAsSavedDelta,
 } = ajaxControllerActions;
 
 /*
@@ -24,6 +28,7 @@ export const URL = '/api/raid';
 
 // Action names
 const FETCH_DONE = `${APPLICATION_NAME}/${MODULE_NAME}/FETCH_DONE`;
+const DELETE_DONE = `${APPLICATION_NAME}/${MODULE_NAME}/DELETE_DONE`;
 const RESET = `${APPLICATION_NAME}/${MODULE_NAME}/RESET`;
 
 /*
@@ -38,6 +43,9 @@ export default function reducer(state = initialState, action) {
     case FETCH_DONE:
       return fromJS(action.payload);
 
+    case DELETE_DONE:
+      return state.delete(action.payload.id);
+
     case RESET:
       return initialState;
 
@@ -50,20 +58,36 @@ export default function reducer(state = initialState, action) {
 * Actions
 * */
 
-const raidDataFetchDoneDelta = ({ data }) => ({ type: FETCH_DONE, payload: data });
-
 const raidDataResetSignal = () => (dispatch) => {
-  dispatch(ajaxControlleUnregisterDelta({ moduleName: MODULE_NAME }));
+  dispatch(ajaxControllerUnregisterDelta({ moduleName: MODULE_NAME }));
   dispatch({ type: RESET });
 };
 
-const raidDataFetchSignal = () => dispatch => co(function* fetchGen() {
-  // Получаем коллекцию через контроллер
-  const answer = yield dispatch(ajaxControllerFetchSignal('/api/raid', {}, { moduleName: MODULE_NAME }));
+const raidDataGetSignal = () => (dispatch, getState) => co(function* getGen() {
+  const answer = yield dispatch(ajaxControllerFetchSignal(
+    '/api/raid', {}, { moduleName: MODULE_NAME }),
+  );
 
-  // Сохраняем коллекцию в store
+  const ajaxControllerIm = getState()[AJAX_CONTROLLER_MODULE_NAME];
+  const isAlreadySavedInStore = ajaxControllerIm.getIn([MODULE_NAME, 'isAlreadySavedInStore']);
+
+  if (answer.isSuccess && !isAlreadySavedInStore) {
+    dispatch({ type: FETCH_DONE, payload: answer.data });
+    dispatch(ajaxControllerMarkAsSavedDelta({ moduleName: MODULE_NAME }));
+  }
+
+  yield waitStoreUpdate();
+
+  return answer;
+});
+
+const raidDataDeleteSignal = ({ id }) => dispatch => co(function* deleteGen() {
+  const answer = yield dispatch(ajaxControllerFetchSignal(
+    `/api/raid/${id}`, { method: 'DELETE' }, { moduleName: MODULE_NAME }),
+  );
+
   if (answer.isSuccess) {
-    dispatch(raidDataFetchDoneDelta({ data: answer.data }));
+    dispatch({ type: DELETE_DONE, payload: { id } });
   }
 
   yield waitStoreUpdate();
@@ -72,9 +96,9 @@ const raidDataFetchSignal = () => dispatch => co(function* fetchGen() {
 });
 
 export const actions = {
-  raidDataFetchSignal,
+  raidDataGetSignal,
+  raidDataDeleteSignal,
   raidDataResetSignal,
-  raidDataFetchDoneDelta,
 };
 
 /*
@@ -89,8 +113,8 @@ const itemStateShape = ImmutablePropTypes.contains({
 });
 
 const stateShape = ImmutablePropTypes.mapOf(
-  itemStateShape.isRequired,    // value
-  PropTypes.string.isRequired,  // key
+  itemStateShape.isRequired,
+  PropTypes.string.isRequired,
 );
 
 export const shapes = {
