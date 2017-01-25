@@ -29,7 +29,6 @@ function* successHandler(dispatch, { status, data }) {
     status,
     data: resultData,
     originalData: data,
-    isSuccess: true,
   };
 }
 

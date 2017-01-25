@@ -1,59 +1,70 @@
-import React, { PropTypes } from 'react';
-import co from 'co';
-import { shapes } from 'ducks/data/raid';
+import React, { PropTypes, PureComponent } from 'react';
+import { shapes as raidDataShapes, beautify as beautifyRaid } from 'ducks/data/raid';
+import { shapes as driveDataShapes } from 'ducks/data/drive';
+
+// eslint-disable-next-line react/prefer-stateless-function
+class RaidItem extends PureComponent {
+  static propTypes = {
+    raidIm: raidDataShapes.itemState.isRequired,
+    deleteAction: PropTypes.func.isRequired,
+  };
+
+  render() {
+    const { raidIm, deleteAction } = this.props;
+    const beautify = beautifyRaid(raidIm);
+    const deleteRaid = () => deleteAction({ id: raidIm.get('id') });
+
+    return (
+      <div>
+        <div>
+          <span>name: {raidIm.get('name')}</span>
+        </div>
+        <div>
+          <span>size: {beautify.size()}</span>
+        </div>
+        <div>
+          <span>drives: {beautify.drives()}</span>
+        </div>
+        <button onClick={deleteRaid}>Delete</button>
+        <br /><br />
+      </div>
+    );
+  }
+}
 
 const FetchRaids = ({
   raidDataGetSignal,
   raidDataDeleteSignal,
-  raidDataResetSignal,
+  raidDataResetDelta,
   raidDataIm,
-}) => {
-  const click = () => co(function* clickGen() {
-    const { isSuccess } = yield raidDataGetSignal();
-
-    if (isSuccess) {
-      alert('data was fetched, state was updated'); // eslint-disable-line no-alert
-    }
-  });
-
-  return (
+  driveDataIm,
+}) => (
+  <div>
     <div>
-      <button onClick={click}>Fetch Raids</button>
-      <button onClick={raidDataResetSignal}>Reset</button>
-      <br />
-
-      <div>
-        <h3>raids:</h3>
-        {raidDataIm.valueSeq().map((raid) => {
-          const id = raid.get('id');
-          const deleteAction = () => raidDataDeleteSignal({ id });
-
-          return (
-            <div key={id}>
-              <div>
-                <span>name: {raid.get('name')}</span>
-              </div>
-              <div>
-                <span>size: {raid.get('size')}</span>
-              </div>
-              <div>
-                <span>drives: {raid.get('drives').toJS().toString(',')}</span>
-              </div>
-              <button onClick={deleteAction}>Delete</button>
-              <br /><br />
-            </div>
-          );
-        })}
-      </div>
+      Total drives count: {driveDataIm.size}
     </div>
-  );
-};
+
+    <button onClick={raidDataGetSignal}>Fetch Raids</button>
+    <button onClick={raidDataResetDelta}>Reset</button>
+    <br />
+
+    <div>
+      <h3>raids:</h3>
+      {raidDataIm.valueSeq().map((raidIm) => {
+        const id = raidIm.get('id');
+
+        return <RaidItem raidIm={raidIm} key={id} deleteAction={raidDataDeleteSignal} />;
+      })}
+    </div>
+  </div>
+);
 
 FetchRaids.propTypes = {
   raidDataGetSignal: PropTypes.func.isRequired,
   raidDataDeleteSignal: PropTypes.func.isRequired,
-  raidDataResetSignal: PropTypes.func.isRequired,
-  raidDataIm: shapes.state.isRequired,
+  raidDataResetDelta: PropTypes.func.isRequired,
+  raidDataIm: raidDataShapes.state.isRequired,
+  driveDataIm: driveDataShapes.state.isRequired,
 };
 
 export default FetchRaids;

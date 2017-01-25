@@ -1,39 +1,31 @@
 const path = require('path');
 const express = require('express');
 const routes = require('./routes');
-// const webpack = require('webpack');
-// const config = require('./webpack.config.dev');
-// const compiler = webpack(config);
 
 const port = process.env.PORT || 3000;
-
 const app = express();
 
-// if (process.env.NODE_ENV === 'development') {
-//   app.use(require('webpack-dev-middleware')(compiler, {
-//     publicPath: config.output.publicPath,
-//     stats: {
-//       colors: true,
-//     },
-//   }));
-//
-//   app.use(require('webpack-hot-middleware')(compiler));
-//
-//   app.get('*', (req, res, next) => {
-//     const filename = path.join(compiler.outputPath, 'index.html');
-//
-//     compiler.outputFileSystem.readFile(filename, (err, result) => { // eslint-disable-line consistent-return
-//       if (err) {
-//         return next(err);
-//       }
-//       res.set('content-type', 'text/html');
-//       res.send(result);
-//     });
-//   });
-// }
+// hot mode middlewares
+if (process.env.NODE_ENV === 'hot') {
+  /* eslint-disable global-require */
+  const webpack = require('webpack');
+  const webpackConfig = require('../webpack.config');
+  const compiler = webpack(webpackConfig);
 
-if (process.env.NODE_ENV === 'development') {
-  // public files
+  console.log('It\'s hot!');
+  // HMR
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath,
+    historyApiFallback: true,
+  }));
+
+  app.use(require('webpack-hot-middleware')(compiler));
+  /* eslint-enable global-require */
+}
+
+// dev server provide static files
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'hot') {
   app.use('/public', express.static(path.join(__dirname, '../public')));
 }
 
@@ -46,9 +38,9 @@ app.get('*', (req, res) => {
 app.listen(port, 'localhost', (err) => {
   if (err) {
     console.log(err); // eslint-disable-line no-console
+
     return;
   }
 
   console.log(`Listening at http://localhost:${port}`); // eslint-disable-line no-console
 });
-

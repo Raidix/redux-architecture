@@ -19,8 +19,7 @@ const Layout = ({ children }) => (
     <h1>Redux architecture</h1>
 
     <ul>
-      <MenuLink pageLink="/" pageName="Index page" />
-      <MenuLink pageLink="/counter" pageName="Counter page" />
+      <MenuLink pageLink="/" pageName="Counter page" />
       <MenuLink pageLink="/multiple" pageName="Multiple page" />
       <MenuLink pageLink="/fetch" pageName="Fetcher page" />
     </ul>

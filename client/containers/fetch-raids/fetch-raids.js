@@ -1,15 +1,29 @@
 import { connect } from 'react-redux';
-import { FetchRaids } from 'components';
+import { FetchRaids, dataFetcherEnhance } from 'components';
+
 import {
   actions as raidDataActions,
 } from 'ducks/data/raid';
 
-const mapDispatchToProps = raidDataActions;
+import {
+  actions as driveDataActions,
+} from 'ducks/data/drive';
+
+const mapDispatchToProps = Object.assign({},
+  raidDataActions,
+  driveDataActions,
+);
 
 function mapStateToProps(state) {
   return {
     raidDataIm: state.data.raidDataIm,
+    driveDataIm: state.data.driveDataIm,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FetchRaids);
+const FetchRaidsWithFetch = dataFetcherEnhance(FetchRaids, [
+  'raidDataGetSignal',
+  'driveDataGetSignal',
+]);
+
+export default connect(mapStateToProps, mapDispatchToProps)(FetchRaidsWithFetch);

@@ -26,7 +26,6 @@ let raids = [
 ];
 
 api.get('/raid', (req, res) => {
-
   setTimeout(() => {
     res.status(200).send({
       status: 'OK',
@@ -47,6 +46,22 @@ api.delete('/raid/:id', (req, res) => {
       warnings: [],
     });
   }, 300);
+});
+
+const drives = [];
+
+for (let i = 0; i < 7; i += 1) {
+  drives.push({ id: i, name: `drive_${i}` });
+}
+
+api.get('/drive', (req, res) => {
+  setTimeout(() => {
+    res.status(200).send({
+      status: 'OK',
+      result: drives,
+      warnings: [],
+    });
+  }, 500);
 });
 
 module.exports = api;

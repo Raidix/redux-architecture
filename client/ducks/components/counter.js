@@ -2,7 +2,6 @@
 * Пример модуля умного компонента.
 * */
 
-import co from 'co';
 import { Map } from 'immutable';
 import { PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -47,11 +46,11 @@ export default function reducer(state = initialState, action) {
 const counterComponentIncreaseDelta = () => ({ type: INCREASE });
 const counterComponentDecreaseDelta = () => ({ type: DECREASE });
 
-const counterComponentIncreaseAsyncSignal = () => dispatch => co(function* increaseAsync() {
+const counterComponentIncreaseAsyncSignal = () => dispatch => Promise.coroutine(function* increaseAsync() {
   yield delay(500);
 
   dispatch(counterComponentIncreaseDelta());
-});
+})();
 
 export const actions = {
   counterComponentIncreaseDelta,

@@ -9,12 +9,11 @@ import { fetchSignal } from 'ducks/fetch/fetch';
 * Constants
 * */
 
-export const MODULE_NAME = 'raidData';
-export const URL = '/api/raid';
+export const MODULE_NAME = 'driveData';
+export const URL = '/api/drive';
 
 // Action names
 const FETCH_DONE = `${APPLICATION_NAME}/${MODULE_NAME}/FETCH_DONE`;
-const DELETE_DONE = `${APPLICATION_NAME}/${MODULE_NAME}/DELETE_DONE`;
 const RESET = `${APPLICATION_NAME}/${MODULE_NAME}/RESET`;
 
 /*
@@ -28,9 +27,6 @@ export default function reducer(state = initialState, action) {
     case FETCH_DONE:
       return fromJS(action.payload);
 
-    case DELETE_DONE:
-      return state.delete(action.payload.id);
-
     case RESET:
       return initialState;
 
@@ -43,9 +39,9 @@ export default function reducer(state = initialState, action) {
 * Actions
 * */
 
-const raidDataResetDelta = () => ({ type: RESET });
+const driveDataResetDelta = () => ({ type: RESET });
 
-const raidDataGetSignal = () => dispatch => Promise.coroutine(function* getGen() {
+const driveDataGetSignal = () => dispatch => Promise.coroutine(function* getGen() {
   const answer = yield dispatch(fetchSignal(URL));
 
   if (answer.status === 200) {
@@ -57,47 +53,18 @@ const raidDataGetSignal = () => dispatch => Promise.coroutine(function* getGen()
   return answer;
 })();
 
-const raidDataDeleteSignal = ({ id }) => dispatch => Promise.coroutine(function* deleteGen() {
-  const answer = yield dispatch(fetchSignal(`${URL}/${id}`, { method: 'DELETE' }));
-
-  if (answer.status === 200) {
-    dispatch({ type: DELETE_DONE, payload: { id } });
-  }
-
-  yield waitStoreUpdate();
-
-  return answer;
-})();
-
 export const actions = {
-  raidDataGetSignal,
-  raidDataDeleteSignal,
-  raidDataResetDelta,
+  driveDataResetDelta,
+  driveDataGetSignal,
 };
-
-/*
-* Beautify
-* */
-
-export const beautify = model => ({
-  size() {
-    return `${model.get('size')} GiB`;
-  },
-
-  drives() {
-    return model.get('drives').toJS().join(', ');
-  },
-});
 
 /*
 * Shapes
 * */
 
 const itemStateShape = ImmutablePropTypes.contains({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  size: PropTypes.number.isRequired,
-  drives: ImmutablePropTypes.listOf(PropTypes.number).isRequired,
 });
 
 const stateShape = ImmutablePropTypes.mapOf(

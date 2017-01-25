@@ -10,4 +10,3 @@ const FetchPage = () => (
 );
 
 export default FetchPage;
-
