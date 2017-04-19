@@ -26,6 +26,7 @@ function* successHandler(dispatch, { status, data }) {
   // const warnings = data.warnings;
 
   return {
+    isSuccess: true,
     status,
     data: resultData,
     originalData: data,

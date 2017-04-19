@@ -41,7 +41,7 @@ config.resolve = {
 if (isProduction) {
   config.devtool = 'source-map';
 } else {
-  config.devtool = 'cheap-module-eval-source-map';
+  config.devtool = 'eval-source-map';
 }
 
 if (isHot || isDevelopment) {

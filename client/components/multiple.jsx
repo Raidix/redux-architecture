@@ -1,6 +1,7 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { shapes } from 'ducks/components/multiple';
-import { shallowEqual } from 'tools';
+import shallowEqual from 'tools/shallow-equal';
 
 const SelectButton = ({ isActive, setSelectedAction }) => (
   <button onClick={setSelectedAction}>

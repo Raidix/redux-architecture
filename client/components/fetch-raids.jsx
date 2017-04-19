@@ -1,4 +1,5 @@
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { shapes as raidDataShapes, beautify as beautifyRaid } from 'ducks/data/raid';
 import { shapes as driveDataShapes } from 'ducks/data/drive';
 

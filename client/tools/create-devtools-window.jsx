@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import DevTools from 'containers/devtools/devtools';
+import DevTools from 'containers/devtools';
 
 export default function createDevToolsWindow(store) {
   // Window name.

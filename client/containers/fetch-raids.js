@@ -1,13 +1,8 @@
 import { connect } from 'react-redux';
-import { FetchRaids, dataFetcherEnhance } from 'components';
-
-import {
-  actions as raidDataActions,
-} from 'ducks/data/raid';
-
-import {
-  actions as driveDataActions,
-} from 'ducks/data/drive';
+import dataFetcherEnhance from 'components/data-fetcher-enhance/data-fetcher-enhance';
+import FetchRaids from 'components/fetch-raids';
+import { actions as raidDataActions } from 'ducks/data/raid';
+import { actions as driveDataActions } from 'ducks/data/drive';
 
 const mapDispatchToProps = Object.assign({},
   raidDataActions,

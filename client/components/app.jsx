@@ -1,5 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { ModalBackground } from 'containers/modal';
 
 const MenuLink = ({ pageLink, pageName }) => (
   <li>
@@ -22,9 +24,12 @@ const Layout = ({ children }) => (
       <MenuLink pageLink="/" pageName="Counter page" />
       <MenuLink pageLink="/multiple" pageName="Multiple page" />
       <MenuLink pageLink="/fetch" pageName="Fetcher page" />
+      <MenuLink pageLink="/modal" pageName="Modal page" />
     </ul>
 
     {children}
+
+    <ModalBackground />
   </div>
 );
 

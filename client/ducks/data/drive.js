@@ -1,9 +1,8 @@
 import { Map, fromJS } from 'immutable';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { APPLICATION_NAME } from 'config';
-import { waitStoreUpdate } from 'tools';
-import { fetchSignal } from 'ducks/fetch/fetch';
+import { fetchSignal } from 'ducks/fetch';
 
 /*
 * Constants
@@ -44,11 +43,9 @@ const driveDataResetDelta = () => ({ type: RESET });
 const driveDataGetSignal = () => dispatch => Promise.coroutine(function* getGen() {
   const answer = yield dispatch(fetchSignal(URL));
 
-  if (answer.status === 200) {
+  if (answer.isSuccess) {
     dispatch({ type: FETCH_DONE, payload: answer.data });
   }
-
-  yield waitStoreUpdate();
 
   return answer;
 })();

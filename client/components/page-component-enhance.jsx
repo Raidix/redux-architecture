@@ -5,11 +5,11 @@
 * */
 
 import React, { PureComponent } from 'react';
-import { clearFetchedData } from 'components/data-fetcher-enhance/data-fetcher-enhance';
+import { fetchedDataManager } from 'components/data-fetcher-enhance';
 
 export default ComposedComponent => class PageComponentWrapper extends PureComponent {
   componentWillUnmount() {
-    clearFetchedData();
+    fetchedDataManager.clearFetchedData();
   }
 
   render() {

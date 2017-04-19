@@ -1,9 +1,8 @@
 import { Map, fromJS } from 'immutable';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { APPLICATION_NAME } from 'config';
-import { waitStoreUpdate } from 'tools';
-import { fetchSignal } from 'ducks/fetch/fetch';
+import { fetchSignal } from 'ducks/fetch';
 
 /*
 * Constants
@@ -48,11 +47,9 @@ const raidDataResetDelta = () => ({ type: RESET });
 const raidDataGetSignal = () => dispatch => Promise.coroutine(function* getGen() {
   const answer = yield dispatch(fetchSignal(URL));
 
-  if (answer.status === 200) {
+  if (answer.isSuccess) {
     dispatch({ type: FETCH_DONE, payload: answer.data });
   }
-
-  yield waitStoreUpdate();
 
   return answer;
 })();
@@ -60,11 +57,9 @@ const raidDataGetSignal = () => dispatch => Promise.coroutine(function* getGen()
 const raidDataDeleteSignal = ({ id }) => dispatch => Promise.coroutine(function* deleteGen() {
   const answer = yield dispatch(fetchSignal(`${URL}/${id}`, { method: 'DELETE' }));
 
-  if (answer.status === 200) {
+  if (answer.isSuccess) {
     dispatch({ type: DELETE_DONE, payload: { id } });
   }
-
-  yield waitStoreUpdate();
 
   return answer;
 })();
@@ -79,13 +74,13 @@ export const actions = {
 * Beautify
 * */
 
-export const beautify = model => ({
+export const beautify = raidIm => ({
   size() {
-    return `${model.get('size')} GiB`;
+    return `${raidIm.get('size')} GiB`;
   },
 
   drives() {
-    return model.get('drives').toJS().join(', ');
+    return raidIm.get('drives').toJS().join(', ');
   },
 });
 

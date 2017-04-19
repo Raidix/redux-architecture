@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from 'ducks';
 import { persistState } from 'redux-devtools';
-import DevTools from 'containers/devtools/devtools';
+import DevTools from 'containers/devtools';
 
 /**
  * Creates a preconfigured store.

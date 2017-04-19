@@ -1,5 +1,5 @@
 import React from 'react';
-import { FetchRaids } from 'containers';
+import FetchRaids from 'containers/fetch-raids';
 
 const FetchPage = () => (
   <div>

@@ -5,7 +5,7 @@
 * */
 
 import { Map } from 'immutable';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { APPLICATION_NAME } from 'config';
 

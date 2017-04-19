@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
-import { Multiple } from 'components';
-import {
-  actions as multipleActions,
-} from 'ducks/components/multiple';
+import Multiple from 'components/multiple';
+import { actions as multipleActions } from 'ducks/components/multiple';
 
 const mapDispatchToProps = multipleActions;
 

@@ -4,22 +4,7 @@
 
 import React, { PureComponent } from 'react';
 import Preloader from './preloader';
-
-/*
-* @key = fetch action name
-* @value = fetch promise
-* */
-
-let fetchedData = {};
-
-// Clear fetched data and abort promises
-export const clearFetchedData = () => {
-  Object.keys(fetchedData).forEach((fetchActionName) => {
-    fetchedData[fetchActionName].cancel();
-  });
-
-  fetchedData = {};
-};
+import fetchedDataManager from './fetched-data-manager';
 
 export default (ComposedComponent, fetchActionNames, CustomPreloader) =>
   class DataFetcherWrapper extends PureComponent {
@@ -33,6 +18,7 @@ export default (ComposedComponent, fetchActionNames, CustomPreloader) =>
 
     componentWillMount() {
       const promises = [];
+      const fetchedData = fetchedDataManager.getFetchedData();
 
       fetchActionNames.forEach((fetchActionName) => {
         if (!fetchedData[fetchActionName]) {

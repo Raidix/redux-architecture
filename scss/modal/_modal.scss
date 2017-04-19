@@ -1,0 +1,109 @@
+$modalAnimationShowTime: 0.3s;
+$modalAnimationHideTime: 0.2s;
+
+
+/*
+* modal
+* */
+
+.modal__layout {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  overflow-y: scroll;
+  padding: 5% 0;
+}
+
+.modal__wrapper {
+  background-color: white;
+  width: 400px;
+  max-width: 100%;
+  padding: 24px 24px 8px 24px;
+  border-radius: 2px;
+  margin: 0 auto;
+  transition: opacity $modalAnimationHideTime;
+  animation: modal_slide_in $modalAnimationShowTime;
+}
+
+@keyframes modal_slide_in {
+  from {
+    opacity: 0.01;
+    transform: translateY(-30%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal__wrapper_visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal__wrapper_close {
+  opacity: 0.01;
+}
+
+.modal__title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal__header {
+  margin-bottom: 15px;
+}
+
+.modal__content {
+  margin-bottom: 15px;
+}
+
+
+/*
+* modal-background
+* */
+
+.modal__background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 95;
+  visibility: hidden;
+  opacity: 0;
+  background: yellow;
+}
+
+@keyframes modalBackgroundShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+.modal__background_visible {
+  opacity: 0.5;
+  visibility: visible;
+  animation: modalBackgroundShow 0.2s;
+}
+
+@keyframes modalBackgroundHide {
+  from {
+    opacity: 0.5;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.modal__background_hide {
+  animation: modalBackgroundHide 0.2s;
+}

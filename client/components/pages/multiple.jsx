@@ -1,5 +1,5 @@
 import React from 'react';
-import { Multiple } from 'containers';
+import Multiple from 'containers/multiple';
 
 const MultiplePage = () => (
   <div>

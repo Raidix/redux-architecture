@@ -1,9 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Root from 'containers/root/root';
+import Root from 'containers/root';
 import configureStore from 'store/configure-store';
 import { AppContainer } from 'react-hot-loader';
 import Promise from 'bluebird';
+
+import '../scss/app.scss';
 
 // Подмена Promise из babel на bluebird
 Promise.config({ cancellation: true });
@@ -20,9 +22,9 @@ render(
 );
 
 if (module.hot) {
-  module.hot.accept('containers/root/root', () => {
+  module.hot.accept('containers/root', () => {
     // eslint-disable-next-line global-require
-    const NewRoot = require('containers/root/root').default;
+    const NewRoot = require('containers/root').default;
 
     render(
       <AppContainer>

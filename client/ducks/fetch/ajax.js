@@ -1,9 +1,9 @@
 /*
-* Обертка на fetch, котрая никогда не реджектится и
+* Обертка на xhr, котрая никогда не реджектится и
 * резолвится объектом вида { status, data, error }
 * */
 
-const fetcher = (url, options = {}) => new Promise((resolve, reject, onCancel) => {
+const ajax = (url, options = {}) => new Promise((resolve, reject, onCancel) => {
   const xhr = new XMLHttpRequest();
   const { method = 'GET', body } = options;
 
@@ -35,4 +35,4 @@ const fetcher = (url, options = {}) => new Promise((resolve, reject, onCancel) =
   onCancel(() => xhr.abort());
 });
 
-export default fetcher;
+export default ajax;

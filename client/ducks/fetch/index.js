@@ -2,7 +2,7 @@
 * Модуль для работы с rest сервером: загружает, парсит json. Обрабатывает ошибки.
 * */
 
-import { fetcher } from 'tools';
+import fetcher from './ajax';
 import successHandler from './success-handler';
 import errorHandler from './error-handler';
 

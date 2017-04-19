@@ -7,12 +7,12 @@ const app = express();
 
 // hot mode middlewares
 if (process.env.NODE_ENV === 'hot') {
-  /* eslint-disable global-require */
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
   const webpack = require('webpack');
   const webpackConfig = require('../webpack.config');
   const compiler = webpack(webpackConfig);
 
-  console.log('It\'s hot!');
+  console.log('It\'s hot!');  // eslint-disable-line no-console
   // HMR
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'hot') {
   }));
 
   app.use(require('webpack-hot-middleware')(compiler));
-  /* eslint-enable global-require */
+  /* eslint-enable */
 }
 
 // dev server provide static files
